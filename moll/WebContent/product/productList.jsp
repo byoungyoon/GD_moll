@@ -12,6 +12,8 @@
 </head>
 <body>
 <%
+	// 카테고리에 상품이 하나도 없을경우 오류가 걸린다.. 시간이 부족하여 아직 찾지 못했다.
+	
 	// 로그인 되어있을 때만 접근 가능
 	if(session.getAttribute("sessionToLogin") == null){
 		response.sendRedirect("/moll_admin/login/login.jsp");
@@ -26,11 +28,36 @@
 	
 	//System.out.println(memberEmail + "<---memeberEmail");
 	//System.out.println(categoryId + "<---categoryId");
-
-	ArrayList<Product> list = new ArrayList<Product>();
+	
 	ProductDao productDao = new ProductDao();
 	
-	list = productDao.selectProductName(categoryId);
+	// 페이징을 위한 보이는 페이지와 마지막 페이지를 선언
+	int currentPage = 0;
+	if(request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	Product paramProduct = new Product();
+	paramProduct.setCategoryId(categoryId);
+	int lastPage = productDao.selectProductNameCount(paramProduct);
+	if(lastPage % 9 != 0){
+		lastPage = lastPage / 9 + 1;
+	}
+	else{
+		lastPage = lastPage / 9;
+	}
+	// 페이지의 한계값이 나오면 돌아가도록 설정
+	if(currentPage == -1){
+		currentPage = 0;
+	}
+	if(currentPage == lastPage){
+		currentPage = lastPage-1;
+	}
+	
+	//System.out.println(lastPage + "<--lastPage");
+	//System.out.println(currentPage + "<--currentPage");
+	
+	ArrayList<Product> list = new ArrayList<Product>();
+	list = productDao.selectProductNamePaging(paramProduct, currentPage);
 %>
 	<div class="container">
 		<div class="row">
@@ -51,7 +78,7 @@
 				%>
 					<!-- 줄을 12로 나눈것을 4개씩 계속 출력-->
 					<div class="col-sm-4 text-center">
-						<div class="card" style="width:300px;">
+						<div class="card" style="width:350px;">
 							<!-- product의 사진을 default 사진으로 지정// 나는 1.jpg -->
 	 						<img class="card-img-top" src="<%=request.getContextPath()%>/image/1.jpg" alt="Card image">
 	 						<a href="<%=request.getContextPath() %>/product/productOne.jsp?productId=<%=p.getProductId() %>&memberEmail=<%=memberEmail %>" class="btn btn-outline-secondary">
@@ -92,6 +119,26 @@
 				}
 		%>
 		</div>
+		
+		<br>
+		<!-- 밑에 페이지바 순서대로 처음,뒤로,페이지 번호(페이지 수에 맞게), 다음, 마지막으로 -->
+		<!-- 각각 변수로는 productId, memberEmail, currentPage를 보낸다 -->
+		<ul class="pagination pagination-lg justify-content-center">
+			<li class="page-item"><a class="page-link text-dark" href="<%=request.getContextPath() %>/product/productList.jsp?currentPage=<%=0 %>&categoryId=<%=categoryId %>&memberEmail=<%=memberEmail %>">first</a></li>
+			<li class="page-item"><a class="page-link text-dark" href="<%=request.getContextPath() %>/product/productList.jsp?currentPage=<%=currentPage-1 %>&categoryId=<%=categoryId %>&memberEmail=<%=memberEmail %>">Previous</a></li>
+			<%
+				for(int i=0; i<lastPage; i++){
+				%>
+					<li class="page-item"><a class="page-link text-dark" href="<%=request.getContextPath() %>/product/productList.jsp?currentPage=<%=i %>&categoryId=<%=categoryId %>&memberEmail=<%=memberEmail %>"><%=i+1 %></a></li>
+				<%
+				}
+			%>
+			<li class="page-item"><a class="page-link text-dark" href="<%=request.getContextPath() %>/product/productList.jsp?currentPage=<%=currentPage+1 %>&categoryId=<%=categoryId %>&memberEmail=<%=memberEmail %>">Next</a></li>
+			<li class="page-item"><a class="page-link text-dark" href="<%=request.getContextPath() %>/product/productList.jsp?currentPage=<%=lastPage-1 %>&categoryId=<%=categoryId %>&memberEmail=<%=memberEmail %>">last</a></li>
+		</ul>
 	</div>
 </body>
 </html>
+
+
+

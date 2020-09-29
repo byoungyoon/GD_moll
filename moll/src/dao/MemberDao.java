@@ -28,4 +28,31 @@ public class MemberDao {
 		
 		return returnMember;
 	}
+	
+	// 사용자가 마이페이지를 눌렀을 경우 보이는 신상정보
+	public Member selectMemberOne(Member member) throws Exception{
+		Member returnMember = null;
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "SELECT member_email, member_name, member_date FROM member WHERE member_email = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1,member.getMemberEamil());
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			returnMember = new Member();
+			
+			returnMember.setMemberName(rs.getString("member_name"));
+			returnMember.setMemberEamil(rs.getString("member_email"));
+			returnMember.setMemberDate(rs.getString("member_date"));
+		}
+		
+		conn.close();
+		
+		return returnMember;
+	}
 }

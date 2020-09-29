@@ -86,6 +86,71 @@ public class ProductDao {
 		return list;
 	}
 	
+	// 제품별 전체보기에서 페이징을 위한 메서드
+	public ArrayList<Product> selectProductNamePaging(Product product, int currentPage) throws Exception{
+		ArrayList<Product> list = new ArrayList<Product>();
+		
+		// 데이터베이스를 메소드로 호출(Connection을 출력값으로 받음)
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+			
+		/*
+		 * SELECT
+		 * product_id, category_id, product_name, product_price
+		 * FROM
+		 * product
+		 * WHERE 
+		 * category_id=?
+		 * LIMIT 
+		 * ?, 9
+		 */
+			
+		String sql = "SELECT product_id, category_id, product_name, product_price FROM product WHERE category_id=? LIMIT ?, 9";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+			
+		stmt.setInt(1, product.getCategoryId());
+		currentPage = currentPage*9;
+		stmt.setInt(2, currentPage);
+			
+		ResultSet rs = stmt.executeQuery();
+			
+		while(rs.next()) {
+			Product paramProduct = new Product();
+			paramProduct.setProductId(rs.getInt("product_id"));
+			paramProduct.setProductName(rs.getString("product_name"));
+			paramProduct.setProductPrice(rs.getInt("product_price"));
+			paramProduct.setCategoryId(rs.getInt("category_id"));
+			
+			list.add(paramProduct);
+		}
+			
+		conn.close();
+		
+		return list;
+	}
+	
+	// 제품별 전체 품목 개수를 구하는 메서드
+	public int selectProductNameCount(Product product) throws Exception{
+		int lastPage = 0;
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "SELECT COUNT(*) cot FROM product WHERE category_Id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, product.getCategoryId());
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			lastPage = rs.getInt("cot");
+		}
+		
+		conn.close();
+		
+		return lastPage;
+	}
+	
 	public Product selectProductOne(Product product) throws Exception {
 		Product returnProduct = null;
 		

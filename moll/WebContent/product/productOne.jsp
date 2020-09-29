@@ -31,6 +31,7 @@
 	Product product = productDao.selectProductOne(paramProduct);
 %>
 	<div class="container">
+		<!-- 메뉴 바 두 개는 공통 틀 -->
 		<div class="row">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
@@ -44,34 +45,34 @@
 		</div>
 		
 		<br>
-		
+		<!-- 상품 정보와 구매할 주소와 기타 등등 입력 란 -->
 		<form method="post" action="<%=request.getContextPath() %>/product/ordersInputAction.jsp">
-			<div class="row">
+		<div class="row">
 				<div class="col-sm-6">
 					<img src="<%=request.getContextPath() %>/image/<%=product.getProductPic() %>">
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-6">				
 					<table class="table text-center">
 						<tr>	
 							<th>상품 명</th>
-							<td><%=product.getProductName() %></td>
+							<td class="align-middle"><%=product.getProductName() %></td>
 						</tr>
 						<tr>	
 							<th>상품 설명</th>
-							<td><%=product.getProductContent() %></td>
+							<td class="align-middle"><%=product.getProductContent() %></td>
 						</tr>
 						<tr>	
 							<th>가격</th>
-							<td><%=product.getProductPrice() %></td>
+							<td class="align-middle"><%=product.getProductPrice() %></td>
 							<td><input type="hidden" name="productPrice" value="<%=product.getProductPrice() %>"></td>
 						</tr>
 						<tr>	
 							<th>상품 여부</th>
-							<td><%=product.getProductSoldout() %></td>
+							<td class="align-middle"><%=product.getProductSoldout() %></td>
 						</tr>
 						<tr>	
 							<th>수량</th>
-							<td>
+							<td class="align-middle">
 								<select name="ordersAmount" style="font-size:20px">
 									<option value="0">0</option>
 									<%
@@ -86,7 +87,7 @@
 						</tr>
 						<tr>	
 							<th>주소</th>
-							<td><textarea name="ordersAddr" cols="50" rows="5"></textarea></td>
+							<td class="align-middle"><textarea name="ordersAddr" cols="50" rows="5"></textarea></td>
 						</tr>
 					</table>
 					<input type="hidden" name="memberEmail" value=<%=memberEmail %>>

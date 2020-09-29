@@ -4,6 +4,7 @@ package vo;
 public class Member {
 	private String memberEamil;
 	private String memberName;
+	private String memberDate;
 	
 	public String getMemberEamil() {
 		return memberEamil;
@@ -17,4 +18,12 @@ public class Member {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
+	public String getMemberDate() {
+		return memberDate;
+	}
+	public void setMemberDate(String memberDate) {
+		this.memberDate = memberDate;
+	}
+	
+
 }

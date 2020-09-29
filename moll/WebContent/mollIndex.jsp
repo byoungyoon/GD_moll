@@ -51,8 +51,8 @@
 	
 	int lastPage = categoryDao.categoryCount() - 5;
 	
-	System.out.println(lastPage + "<--- lastPage");
-	System.out.println(currentPage + "<--- currnetPage");
+	//System.out.println(lastPage + "<--- lastPage");
+	//System.out.println(currentPage + "<--- currnetPage");
 	
 	if(currentPage == -1){
 		currentPage = 0;
@@ -82,21 +82,25 @@
 	
 %>
 	<!-- 전체 class 컨테이너 선언 -->
-	<div class="container">
+	<div class="container">	
 		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
-		<div class="row">
+				
+		<div class="row" style="margin-top: 10px;">
+			<!-- 구디 메뉴 1 -->
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
+			<!-- 검색 -->
 			<div class="col-sm-3">
 				<input type="text" class="form-control" placeholder="검색할 키워드를 입력해주세요" name="">
-			</div>
-			<!-- 12분할 중 1개 검색 버튼 -->	
+			</div>	
 			<div class="col-sm-1">
 				<a href="" class="btn btn-dark">검색</a>
 			</div>
 			
 			<div class="col-sm-2"></div>
 			
-			<div class="col-sm-1 text-right">
+			<!-- 마이 페이지 -->
+			<!-- 관리자가 누르면 관리자페이지로 사용자가 누르면 사용자페이지로 둘다 아닐경우 로그인 창으로 -->
+			<div class="col-sm-1 text-center">
 				<%
 					if(sessionCk.equals("Admin")){
 					%>
@@ -109,25 +113,25 @@
 					}
 					else{
 					%>
-						<a href="<%=request.getContextPath()%>/member/memberOne.jsp" class="text-dark">
+						<a href="<%=request.getContextPath()%>/member/memberOne.jsp?memberEmail=<%=sessionCk %>" class="text-dark">
 							<i class="fa fa-user-circle" style="font-size:40px"></i>
 						</a>
 					<% 
 					}
 				%>
 			</div>
-			<!-- 12분할 중 1개 카트 -->	
 			
+		<!-- 쇼핑 카트 -->	
 			<div class="col-sm-1 text-right">
 				<i class="fa fa-shopping-cart" style="font-size:40px"></i>
 			</div>
 		</div>
-		
+		<!-- 메뉴바 로그인, 패스워드 있는곳 -->
 		<jsp:include page="/inc/menu2.jsp"></jsp:include>
 			
 		<br>
 		
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
+		<!-- 맨 위 카테고리 버튼-->
 		<div class="row">
 			<div class="col-sm-1"></div>
 			<div class="col-sm-3">
@@ -154,7 +158,7 @@
 		
 		<br>
 		
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
+		<!-- 추천 카테고리 글씨-->
 		<div class="row">	
 			<div class="col-sm-3">
 				<h3><i class="fa fa-star" style="font-size:36px"></i> 추천 카테고리</h3>
@@ -163,7 +167,7 @@
 		
 		<br>
 		
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
+		<!-- 카테고리 사진 원으로-->
 		<div class="row">
 			<!-- 앞 뒤로 12분할 중 1개 여백 -->	
 			<div class="col-sm-1"></div>
@@ -178,6 +182,7 @@
 					%>
 						<div class="col-sm-3 text-center">
 							<img src="/moll_admin/image/<%=c.getCategoryPic() %>" class="rounded-circle" width="210px" height="210px">
+							<!-- 이미지의 이름을 눌렀을때 productList.jsp로 이동(email과 카테고리 아이디를 가짐) -->
 							<a href="<%=request.getContextPath() %>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>&memberEmail=<%=sessionCk %>" class="text-dark"><%=c.getCategoryName() %></a>
 						</div>
 					<%
@@ -185,7 +190,6 @@
 				%>
 				</div>
 			</div>
-			
 			<div class="col-sm-1"></div>
 		</div>
 		
@@ -196,7 +200,7 @@
 			Calendar today = Calendar.getInstance();
 		%>
 		
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
+		<!-- 오늘 추천 상품-->
 		<div class="row">	
 			<div class="col-sm-3">
 				<h3><i class="fa fa-star" style="font-size:36px"></i> 오늘 추천 상품</h3>
@@ -226,7 +230,7 @@
 		
 		<br>
 		
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
+		<!-- 맨 밑 카테고리 별 카드-->
 		<div class="row">
 		<%
 			for(Product p : productList){
