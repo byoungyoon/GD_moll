@@ -17,12 +17,17 @@
 		return;
 	}
 
+	Object ob = session.getAttribute("sessionToLogin");
+	String memberEmail = "";
+	if(ob != null){
+		memberEmail = (String)ob;
+	}
+
 	// 인코딩 형식
 	request.setCharacterEncoding("UTF-8");
 	
 	// orders테이블에 넣을 데이터에 필요한 prodcutid와 memberemial값을 받아옴
 	int productId = Integer.parseInt(request.getParameter("productId"));
-	String memberEmail = request.getParameter("memberEmail");
 	
 	Product paramProduct = new Product();
 	paramProduct.setProductId(productId);
@@ -95,8 +100,12 @@
 				</div>
 			</div>
 			
+			<!-- 장바구니 담기 버튼하고 구매 버튼 -->
 			<div class="row">
-				<div class="col-sm-10"></div>
+				<div class="col-sm-8"></div>
+				<div class="col-sm-2">
+					<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>&memberEmail=<%=memberEmail %>" class="btn btn-outline-secondary btn-block">장바구니 담기</a>
+				</div>
 				<div class="col-sm-2">
 					<%
 						// 관리자는 구매 버튼 활성화 금지(관리자 계정으로 물품을 시킬일은 없을것 같다)

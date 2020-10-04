@@ -18,9 +18,14 @@
 		return;
 	}
 
+	Object ob = session.getAttribute("sessionToLogin");
+	String memberEmail = "";
+	if(ob != null){
+		memberEmail = (String)ob;
+	}
+
 	// 인코딩 형식
 	request.setCharacterEncoding("UTF-8");
-	String memberEmail = request.getParameter("memberEmail");
 	
 	// 마이페이지의 신상 정보
 	Member paramMember = new Member();

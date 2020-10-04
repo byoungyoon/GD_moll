@@ -23,10 +23,11 @@
 		session.setAttribute("sessionToLogin", ses);
 	}
 	
+	// 세션값 받아옴
 	Object ob = session.getAttribute("sessionToLogin");
-	String sessionCk = "";
+	String memberEmail = "";
 	if(ob != null){
-		sessionCk = (String)ob;
+		memberEmail = (String)ob;
 	}
 	
 	//System.out.println(session.getAttribute("sessionToLogin"));
@@ -81,10 +82,8 @@
 	noticeList = noticeDao.selectNoticeList();
 	
 %>
-	<!-- 전체 class 컨테이너 선언 -->
 	<div class="container">	
-		<!-- 한 줄 12분할 왼쪽부터 1 오른쪽 마지막 12-->
-				
+		<!--제목 / 맨 위-->
 		<div class="row" style="margin-top: 10px;">
 			<!-- 구디 메뉴 1 -->
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
@@ -98,11 +97,18 @@
 			
 			<div class="col-sm-2"></div>
 			
+			<!-- 장바구니 -->	
+			<div class="col-sm-1 text-right">
+				<a href="<%=request.getContextPath() %>/product/selectProductList.jsp" class="text-dark">
+					<i class="fa fa-shopping-cart" style="font-size:40px"></i>
+				</a>
+			</div>
+			
 			<!-- 마이 페이지 -->
 			<!-- 관리자가 누르면 관리자페이지로 사용자가 누르면 사용자페이지로 둘다 아닐경우 로그인 창으로 -->
 			<div class="col-sm-1 text-center">
 				<%
-					if(sessionCk.equals("Admin")){
+					if(memberEmail.equals("Admin")){
 					%>
 				
 						<a href="/moll_admin/index.jsp" class="text-dark">
@@ -113,17 +119,12 @@
 					}
 					else{
 					%>
-						<a href="<%=request.getContextPath()%>/member/memberOne.jsp?memberEmail=<%=sessionCk %>" class="text-dark">
+						<a href="<%=request.getContextPath()%>/member/memberOne.jsp" class="text-dark">
 							<i class="fa fa-user-circle" style="font-size:40px"></i>
 						</a>
 					<% 
 					}
 				%>
-			</div>
-			
-		<!-- 쇼핑 카트 -->	
-			<div class="col-sm-1 text-right">
-				<i class="fa fa-shopping-cart" style="font-size:40px"></i>
 			</div>
 		</div>
 		<!-- 메뉴바 로그인, 패스워드 있는곳 -->
@@ -142,7 +143,7 @@
 					 		// 위 카테고리 목록 출력(여기서는 5개씩 페이징)
 							for(Category c : list){
 							%>
-							   <a class="btn btn-outline-secondary btn-block" href="<%=request.getContextPath() %>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>&memberEmail=<%=sessionCk %>"><%=c.getCategoryName() %></a>
+							   <a class="btn btn-outline-secondary btn-block" href="<%=request.getContextPath() %>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>"><%=c.getCategoryName() %></a>
 							   <br><br>
 							<%
 						}
@@ -183,7 +184,7 @@
 						<div class="col-sm-3 text-center">
 							<img src="/moll_admin/image/<%=c.getCategoryPic() %>" class="rounded-circle" width="210px" height="210px">
 							<!-- 이미지의 이름을 눌렀을때 productList.jsp로 이동(email과 카테고리 아이디를 가짐) -->
-							<a href="<%=request.getContextPath() %>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>&memberEmail=<%=sessionCk %>" class="text-dark"><%=c.getCategoryName() %></a>
+							<a href="<%=request.getContextPath() %>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>" class="text-dark"><%=c.getCategoryName() %></a>
 						</div>
 					<%
 					}
@@ -240,7 +241,7 @@
 						<div class="card" style="width:300px;">
 							<!-- product의 사진을 default 사진으로 지정// 나는 1.jpg -->
 	 						<img class="card-img-top" src="<%=request.getContextPath()%>/image/1.jpg" alt="Card image">
-	 						<a href="<%=request.getContextPath() %>/product/productOne.jsp?productId=<%=p.getProductId() %>&memberEmail=<%=sessionCk %>" class="btn btn-outline-secondary">
+	 						<a href="<%=request.getContextPath() %>/product/productOne.jsp?productId=<%=p.getProductId() %>" class="btn btn-outline-secondary">
 		 						<div class="card-body">
 		 							<!-- 한 묷음의 이름 -->
 		 							<%

@@ -8,6 +8,29 @@ import java.sql.*;
 import vo.*;
 
 public class CategoryDao {
+	// 카테고리 아이디를 받아서 이름으로 출력
+	public Category selectCategoryName(Category category) throws Exception{
+		Category returnCategory = null;
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "SELECT category_name FROM category WHERE category_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, category.getCategoryId());	
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			returnCategory = new Category();
+			
+			returnCategory.setCategoryName(rs.getString("category_name"));
+		}
+		
+		conn.close();
+		
+		return returnCategory;
+	}
+	
 	//카테고리 전체수를 계산하는 메서드
 	public int categoryCount() throws Exception{
 		int returnCount = 0;

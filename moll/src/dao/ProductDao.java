@@ -87,7 +87,7 @@ public class ProductDao {
 	}
 	
 	// 제품별 전체보기에서 페이징을 위한 메서드
-	public ArrayList<Product> selectProductNamePaging(Product product, int currentPage) throws Exception{
+	public ArrayList<Product> selectProductNamePaging(Product product) throws Exception{
 		ArrayList<Product> list = new ArrayList<Product>();
 		
 		// 데이터베이스를 메소드로 호출(Connection을 출력값으로 받음)
@@ -109,8 +109,8 @@ public class ProductDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 			
 		stmt.setInt(1, product.getCategoryId());
-		currentPage = currentPage*9;
-		stmt.setInt(2, currentPage);
+		product.setCurrentPage(product.getCurrentPage() * 9);
+		stmt.setInt(2, product.getCurrentPage());
 			
 		ResultSet rs = stmt.executeQuery();
 			

@@ -8,7 +8,14 @@ public class Product {
 	private String productContent;
 	private String productSoldout;
 	private String productPic;
+	private int currentPage;
 	
+	public int getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
 	public int getProductId() {
 		return productId;
 	}

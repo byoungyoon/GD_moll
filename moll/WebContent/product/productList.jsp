@@ -19,15 +19,26 @@
 		response.sendRedirect("/moll_admin/login/login.jsp");
 		return;
 	}
+	Object ob = session.getAttribute("sessionToLogin");
+	String memberEmail = "";
+	if(ob != null){
+		memberEmail = (String)ob;
+	}
+
 	// 인코딩 형식
 	request.setCharacterEncoding("UTF-8");
 	
-	// 회원의 아이디는 그 상품 주문내역 출력할때 필요하기 때문에 항상 데려다녀야함
+	// 상품 주문내역 출력할때 필요하기 때문에 항상 데려다녀야함
 	int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-	String memberEmail = request.getParameter("memberEmail");
 	
 	//System.out.println(memberEmail + "<---memeberEmail");
 	//System.out.println(categoryId + "<---categoryId");
+	
+	Category paramCategory = new Category();
+	paramCategory.setCategoryId(categoryId);
+	
+	CategoryDao categoryDao = new CategoryDao();
+	Category category = categoryDao.selectCategoryName(paramCategory);
 	
 	ProductDao productDao = new ProductDao();
 	
@@ -56,10 +67,13 @@
 	//System.out.println(lastPage + "<--lastPage");
 	//System.out.println(currentPage + "<--currentPage");
 	
+	paramProduct.setCurrentPage(currentPage);
+	
 	ArrayList<Product> list = new ArrayList<Product>();
-	list = productDao.selectProductNamePaging(paramProduct, currentPage);
+	list = productDao.selectProductNamePaging(paramProduct);
 %>
 	<div class="container">
+		<!-- 메뉴바 -->
 		<div class="row">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
@@ -67,16 +81,16 @@
 		<jsp:include page="/inc/menu2.jsp"></jsp:include>
 		
 		<br>
-			
+		<!-- 소제목 -->
 		<div>
-			<h3><i class="fa fa-glide-g" style="font-size:36px"></i> 카테고리 상품 전체 보기</h3>
+			<h3><i class="fa fa-glide-g" style="font-size:36px"></i> 카테고리 상품 전체 보기(<%=category.getCategoryName() %>)</h3>
 		</div>
 		
+		<!-- 본문 -->
 		<div class="row">
 		<%
 			for(Product p : list){
 				%>
-					<!-- 줄을 12로 나눈것을 4개씩 계속 출력-->
 					<div class="col-sm-4 text-center">
 						<div class="card" style="width:350px;">
 							<!-- product의 사진을 default 사진으로 지정// 나는 1.jpg -->
