@@ -97,11 +97,18 @@
 			
 			<div class="col-sm-2"></div>
 			
-			<!-- 장바구니 -->	
+			<!-- 장바구니 -->
+			<!-- 관리자 일 경우 표시하지 않는다 -->
 			<div class="col-sm-1 text-right">
-				<a href="<%=request.getContextPath() %>/product/selectProductList.jsp" class="text-dark">
-					<i class="fa fa-shopping-cart" style="font-size:40px"></i>
-				</a>
+				<%
+					if(!(memberEmail.equals("Admin"))){
+					%>
+						<a href="<%=request.getContextPath() %>/product/selectProductList.jsp" class="text-dark">
+							<i class="fa fa-shopping-cart" style="font-size:40px"></i>
+						</a>
+					<%
+					}
+				%>
 			</div>
 			
 			<!-- 마이 페이지 -->

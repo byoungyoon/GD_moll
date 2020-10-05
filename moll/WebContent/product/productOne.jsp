@@ -16,7 +16,8 @@
 		response.sendRedirect("/moll_admin/login/login.jsp");
 		return;
 	}
-
+	
+	// 세션에서 memberEmail 값을 받아옴
 	Object ob = session.getAttribute("sessionToLogin");
 	String memberEmail = "";
 	if(ob != null){
@@ -26,14 +27,22 @@
 	// 인코딩 형식
 	request.setCharacterEncoding("UTF-8");
 	
-	// orders테이블에 넣을 데이터에 필요한 prodcutid와 memberemial값을 받아옴
 	int productId = Integer.parseInt(request.getParameter("productId"));
 	
 	Product paramProduct = new Product();
 	paramProduct.setProductId(productId);
 	
 	ProductDao productDao = new ProductDao();
+	// 제품의 정보를 가져옴
 	Product product = productDao.selectProductOne(paramProduct);
+	
+	Shopping paramShopping = new Shopping();
+	paramShopping.setProductId(productId);
+	paramShopping.setMemberEmail(memberEmail);
+	
+	ShoppingDao shoppingDao = new ShoppingDao();
+	// 장바구니에 이 상품이 있는지에 대한 정보를 가져옴
+	boolean shoppingCk = shoppingDao.shoppingCk(paramShopping);
 %>
 	<div class="container">
 		<!-- 메뉴 바 두 개는 공통 틀 -->
@@ -95,7 +104,6 @@
 							<td class="align-middle"><textarea name="ordersAddr" cols="50" rows="5"></textarea></td>
 						</tr>
 					</table>
-					<input type="hidden" name="memberEmail" value=<%=memberEmail %>>
 					<input type="hidden" name="productId" value=<%=productId %>>
 				</div>
 			</div>
@@ -104,7 +112,19 @@
 			<div class="row">
 				<div class="col-sm-8"></div>
 				<div class="col-sm-2">
-					<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>&memberEmail=<%=memberEmail %>" class="btn btn-outline-secondary btn-block">장바구니 담기</a>
+					<%
+						// 장바구니에 이 상품이 저장되어 있다면 비활성화
+						if(shoppingCk || memberEmail.equals("Admin")){
+						%>
+							<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>" class="btn btn-outline-secondary btn-block disabled">장바구니 담기</a>
+						<%
+						}
+						else{
+						%>
+							<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>" class="btn btn-outline-secondary btn-block">장바구니 담기</a>
+						<%		
+						}
+					%>
 				</div>
 				<div class="col-sm-2">
 					<%
