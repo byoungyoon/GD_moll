@@ -94,7 +94,7 @@
 					<div class="col-sm-4 text-center">
 						<div class="card" style="width:350px;">
 							<!-- product의 사진을 default 사진으로 지정// 나는 1.jpg -->
-	 						<img class="card-img-top" src="<%=request.getContextPath()%>/image/1.jpg" alt="Card image">
+	 						<img class="card-img-top" src="/moll_admin/image/<%=p.getProductPic() %>" alt="Card image" style="height:300px;">
 	 						<a href="<%=request.getContextPath() %>/product/productOne.jsp?productId=<%=p.getProductId() %>&memberEmail=<%=memberEmail %>" class="btn btn-outline-secondary">
 		 						<div class="card-body">
 		 							<!-- 한 묷음의 이름 -->

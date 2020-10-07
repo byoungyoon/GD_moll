@@ -63,7 +63,7 @@
 		<form method="post" action="<%=request.getContextPath() %>/product/ordersInputAction.jsp">
 		<div class="row">
 				<div class="col-sm-6">
-					<img src="<%=request.getContextPath() %>/image/<%=product.getProductPic() %>">
+					<img src="/moll_admin/image/<%=product.getProductPic() %>">
 				</div>
 				<div class="col-sm-6">				
 					<table class="table text-center">

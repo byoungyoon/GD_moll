@@ -25,7 +25,7 @@ public class ProductDao {
 		 * 0, 9
 		 * */
 		
-		String sql = "SELECT product_id, category_id, product_name, product_price FROM product LIMIT 0, 6";
+		String sql = "SELECT product_id, category_id, product_name, product_price, product_pic FROM product LIMIT 0, 6";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		ResultSet rs = stmt.executeQuery();
@@ -36,6 +36,7 @@ public class ProductDao {
 			product.setProductName(rs.getString("product_name"));
 			product.setProductPrice(rs.getInt("product_price"));
 			product.setCategoryId(rs.getInt("category_id"));
+			product.setProductPic(rs.getString("product_pic"));
 			
 			list.add(product);
 		}
@@ -64,7 +65,7 @@ public class ProductDao {
 		 * 0, 6
 		 */
 		
-		String sql = "SELECT product_id, category_id, product_name, product_price FROM product WHERE category_id=? LIMIT 0, 6";
+		String sql = "SELECT product_id, category_id, product_name, product_price, product_pic FROM product WHERE category_id=? LIMIT 0, 6";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		stmt.setInt(1, categoryId);
@@ -77,6 +78,7 @@ public class ProductDao {
 			product.setProductName(rs.getString("product_name"));
 			product.setProductPrice(rs.getInt("product_price"));
 			product.setCategoryId(rs.getInt("category_id"));
+			product.setProductPic(rs.getString("product_pic"));
 			
 			list.add(product);
 		}
@@ -105,7 +107,7 @@ public class ProductDao {
 		 * ?, 9
 		 */
 			
-		String sql = "SELECT product_id, category_id, product_name, product_price FROM product WHERE category_id=? LIMIT ?, 9";
+		String sql = "SELECT product_id, category_id, product_name, product_price, product_pic FROM product WHERE category_id=? LIMIT ?, 9";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 			
 		stmt.setInt(1, product.getCategoryId());
@@ -120,6 +122,7 @@ public class ProductDao {
 			paramProduct.setProductName(rs.getString("product_name"));
 			paramProduct.setProductPrice(rs.getInt("product_price"));
 			paramProduct.setCategoryId(rs.getInt("category_id"));
+			paramProduct.setProductPic(rs.getString("product_pic"));
 			
 			list.add(paramProduct);
 		}
