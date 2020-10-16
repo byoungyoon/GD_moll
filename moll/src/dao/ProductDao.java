@@ -7,7 +7,44 @@ import commons.DBUtil;
 import java.sql.*;
 import vo.*;
 
-public class ProductDao {	
+public class ProductDao {
+	// 검색 하였을때의 상품 리스트
+	public ArrayList<Product> searchProductList(String searchProduct) throws Exception{
+		ArrayList<Product> list = new ArrayList<Product>();
+		
+		// 데이터베이스를 메소드로 호출(Connection을 출력값으로 받음)
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		/*
+		 * SELECT 
+		 * product_id, product_name, product_price, product_pic
+		 * FROM
+		 * product
+		 * WHERE product_name like %?%
+		 */
+		String sql = "SELECT product_id, product_name, product_price, product_pic FROM product WHERE product_name like ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1,"%" + searchProduct + "%");
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			Product product = new Product();
+			
+			product.setProductId(rs.getInt("product_id"));
+			product.setProductName(rs.getString("product_name"));
+			product.setProductPrice(rs.getInt("product_price"));
+			product.setProductPic(rs.getString("product_pic"));
+			
+			list.add(product);
+		}
+		conn.close();
+		
+		return list;
+	}
+	
 	// prouduct 데이터베이스를 다 출력
 	public ArrayList<Product> selectProductList() throws Exception{
 		ArrayList<Product> list = new ArrayList<Product>();

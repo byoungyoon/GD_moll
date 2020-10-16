@@ -11,6 +11,7 @@
 <!-- 부트스트랩 링크 설정 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <%
@@ -82,6 +83,16 @@
 	noticeList = noticeDao.selectNoticeList();
 	
 %>
+<script>
+	$(document).ready(function() {
+		$("#search a").click(function() {
+			if($("#searchProduct").val().length < 2){
+				return;
+			}
+			window.location.href = '/moll/product/searchProductList.jsp?searchProduct='+ $("#searchProduct").val();
+		});
+	});
+</script>
 	<div class="container">	
 		<!--제목 / 맨 위-->
 		<div class="row" style="margin-top: 10px;">
@@ -89,10 +100,10 @@
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 			<!-- 검색 -->
 			<div class="col-sm-3">
-				<input type="text" class="form-control" placeholder="검색할 키워드를 입력해주세요" name="">
+				<input id="searchProduct" name="searchProduct" type="text" class="form-control" placeholder="2글자 이상 입력해주세요">
 			</div>	
-			<div class="col-sm-1">
-				<a href="" class="btn btn-dark">검색</a>
+			<div id="search" class="col-sm-1">
+				<a href="#" class="btn btn-dark">검색</a>
 			</div>
 			
 			<div class="col-sm-2"></div>

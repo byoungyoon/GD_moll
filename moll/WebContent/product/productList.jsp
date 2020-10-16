@@ -12,8 +12,6 @@
 </head>
 <body>
 <%
-	// 카테고리에 상품이 하나도 없을경우 오류가 걸린다.. 시간이 부족하여 아직 찾지 못했다.
-	
 	// 로그인 되어있을 때만 접근 가능
 	if(session.getAttribute("sessionToLogin") == null){
 		response.sendRedirect("/moll_admin/login/login.jsp");
