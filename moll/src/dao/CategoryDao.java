@@ -48,6 +48,9 @@ public class CategoryDao {
 			returnCount = rs.getInt("cot");
 		}
 		
+		stmt.close();
+		rs.close();
+		
 		return returnCount;
 	}
 	

@@ -13,7 +13,7 @@
 <%
 	// 로그인 되어 있을때만 사용가능
 	if(session.getAttribute("sessionToLogin") == null){
-		response.sendRedirect("/moll_admin/login/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/login/login.jsp");
 		return;
 	}
 	
@@ -23,6 +23,8 @@
 	if(ob != null){
 		memberEmail = (String)ob;
 	}
+	
+	System.out.println(memberEmail);
 
 	// 인코딩 형식
 	request.setCharacterEncoding("UTF-8");
@@ -121,7 +123,7 @@
 						}
 						else{
 						%>
-							<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>" class="btn btn-outline-secondary btn-block">장바구니 담기</a>
+							<a href="<%=request.getContextPath() %>/product/selectProductAction.jsp?productId=<%=productId %>&memberEmail=<%=memberEmail %>" class="btn btn-outline-secondary btn-block">장바구니 담기</a>
 						<%		
 						}
 					%>

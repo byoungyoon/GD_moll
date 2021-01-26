@@ -14,7 +14,7 @@
 <%
 	// 로그인 되어 있을 때만 사용가능       / 세션 처리 해줘야함 관리자가 못 들어오게(미완)
 	if(session.getAttribute("sessionToLogin") == null){
-		response.sendRedirect("/moll_admin/login/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/login/login.jsp");
 		return;
 	}
 

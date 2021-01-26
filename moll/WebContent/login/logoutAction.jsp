@@ -2,5 +2,5 @@
 <%
 	session.invalidate();
 
-	response.sendRedirect("/moll_admin/login/logoutAction.jsp");
+	response.sendRedirect(request.getContextPath()+"/mollIndex.jsp");
 %>

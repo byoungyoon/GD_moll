@@ -4,7 +4,7 @@
 <%
 	// 로그인 되어 있을때만 사용가능
 	if(session.getAttribute("sessionToLogin") == null){
-		response.sendRedirect("/moll_admin/login/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/login/login.jsp");
 		return;
 	}
 

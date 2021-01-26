@@ -14,7 +14,7 @@
 <%
 	// 로그인 되어있을 때만 접근 가능
 	if(session.getAttribute("sessionToLogin") == null){
-		response.sendRedirect("/moll_admin/login/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/login/login.jsp");
 		return;
 	}
 	Object ob = session.getAttribute("sessionToLogin");

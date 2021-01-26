@@ -171,7 +171,7 @@
 			</div>
 			<!-- 맨 위 사진 -->
 			<div class="col-sm-8 text-center">
-				<img src="<%=request.getContextPath()%>/image/1.jpg">
+				<img src="<%=request.getContextPath()%>/image/shop.png" style="width:100%; hegiht:500px">
 			</div>
 		</div>
 		
